@@ -12,7 +12,6 @@ body {
 
 .App-header {
   color: white;
-  border: 1px solid red;
 }
 
 .App-title {
@@ -24,4 +23,28 @@ body {
   width: 50%;
   margin: 0 auto;
   background: white;
+}
+
+.container h1 {
+  padding: 1em 0 1em 0;
+  margin: 0;
+  border-bottom: 2px solid #FFE81F;
+}
+
+.container h3, p {
+  text-align: left;
+}
+
+.container button {
+  width: 100%;
+  padding: .5em;
+  border: none;
+  background: #27ae60;
+  text-transform: uppercase;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.planet-info {
+  padding: 1em 2em 2em 2em;  
 }

@@ -5,19 +5,25 @@ import './App.css';
 class App extends Component {
 
   componentWillMount(){
-    console.log("teste");
-    document.title = "teste"
+    document.title = "Informação de planetas Star Wars"
   }
   render() {
     return (
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Descubra as informações do planeta</h1>
         </header>
-          <hr/>
         <div class="container">
-          teste
+          <h1>Nome do Planeta</h1>
+          <div class="planet-info">
+            <h3>Clima</h3>
+            <p>tipo de clima</p>
+            <h3>Terreno</h3>
+            <p>tipo de terreno</p>
+            <h3>Apareceu em</h3>
+            <p>2 filmes</p>
+          </div>
+          <button type="button">Next</button>
         </div>
       </div>
     );

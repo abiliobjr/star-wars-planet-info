@@ -4,16 +4,16 @@ import React, { Component } from 'react';
 class Infobox extends Component {
   render() {
     return (<div className="container">
-        <h1>{this.props.nome}</h1>
+        <h1>{this.props.name}</h1>
         <div className="planet-info">
             <h3>Clima: </h3>
-            <p>{this.props.clima}</p>
+            <p>{this.props.climate}</p>
             <h3>Terreno</h3>
-            <p>{this.props.terreno}</p>
+            <p>{this.props.terrain}</p>
             <h3>Apareceu em</h3>
-            <p>{this.props.quantidade}</p>
+            <p>{this.props.films}</p>
         </div>
-        <Button texto="Próximo" proxPlaneta={this.props.funcaoBtn}/>
+        <Button text="Próximo" nextPlanet={this.props.btnFunc}/>
     </div>);
   }
 }

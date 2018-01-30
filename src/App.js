@@ -12,18 +12,19 @@ class App extends Component {
     this.state = {
       planets: []
     };
-    this.consultarAPI = this.consultarAPI.bind(this);
+    this.apiConsult = this.apiConsult.bind(this);
   }
 
-  consultarAPI(){
+  apiConsult(){
     let initial = "https://swapi.co/api/planets/?format=json&page=1" ;
     let posts;
     axios.get(initial)
     .then(res => {
         posts = res.data;
-        let numeroRand = Math.floor(Math.random() * posts.count + 1);
-        axios.get(`https://swapi.co/api/planets/${numeroRand}/`)
+        let randNumber = Math.floor(Math.random() * posts.count + 1);
+        axios.get(`https://swapi.co/api/planets/${randNumber}/`)
           .then(resp => {
+            //modificando a lista de urls pelo tamanho do array
             resp.data.films = resp.data.films.length;
             this.setState({planets: resp.data});
           });
@@ -32,7 +33,7 @@ class App extends Component {
 
   componentWillMount(){
     document.title = "Informação de planetas Star Wars"
-    this.consultarAPI();
+    this.apiConsult();
   }
   
   render() {
@@ -42,11 +43,11 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
         </header>
         <Infobox
-          nome={this.state.planets.name}
-          clima={this.state.planets.climate}
-          terreno={this.state.planets.terrain}
-          quantidade={this.state.planets.films}
-          funcaoBtn={this.consultarAPI}
+          name={this.state.planets.name}
+          climate={this.state.planets.climate}
+          terrain={this.state.planets.terrain}
+          films={this.state.planets.films}
+          btnFunc={this.apiConsult}
         />
       </div>
     );

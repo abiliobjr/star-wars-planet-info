@@ -22,13 +22,10 @@ class App extends Component {
     .then(res => {
         posts = res.data;
         let numeroRand = Math.floor(Math.random() * posts.count + 1);
-        console.log(numeroRand);
         axios.get(`https://swapi.co/api/planets/${numeroRand}/`)
           .then(resp => {
-            console.log(resp.data.films);
             resp.data.films = resp.data.films.length;
             this.setState({planets: resp.data});
-            console.log(this.state.planets);
           });
       });
   }

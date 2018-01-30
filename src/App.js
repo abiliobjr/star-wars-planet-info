@@ -12,9 +12,9 @@ class App extends Component {
     this.state = {
       planets: []
     };
+    this.consultarAPI = this.consultarAPI.bind(this);
   }
 
-  
   consultarAPI(){
     let initial = "https://swapi.co/api/planets/?format=json&page=1" ;
     let posts;

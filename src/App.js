@@ -10,7 +10,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      planets: []
+      planets: [],
+      names: []
     };
     this.apiConsult = this.apiConsult.bind(this);
   }
@@ -18,6 +19,7 @@ class App extends Component {
   apiConsult(){
     let initial = "https://swapi.co/api/planets/?format=json&page=1" ;
     let posts;
+    this.setState({planets: [], names: []})
     axios.get(initial)
     .then(res => {
         posts = res.data;
@@ -26,6 +28,13 @@ class App extends Component {
           .then(resp => {
             //modificando a lista de urls pelo tamanho do array
             resp.data.films = resp.data.films.length;
+            resp.data.residents.map(link => {
+              axios.get(link)
+                .then(namesResponse => {
+                  console.log(namesResponse.data.name)
+                  this.setState({names: [namesResponse.data.name, this.state.names]});
+                })
+            })
             this.setState({planets: resp.data});
           });
       });
@@ -43,10 +52,8 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
         </header>
         <Infobox
-          name={this.state.planets.name}
-          climate={this.state.planets.climate}
-          terrain={this.state.planets.terrain}
-          films={this.state.planets.films}
+          planet={this.state.planets}
+          names={this.state.names}
           btnFunc={this.apiConsult}
         />
       </div>

@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 import axios from 'axios';
 
 import Infobox from './components/Infobox';
@@ -10,51 +12,62 @@ class App extends Component {
     super(props);
 
     this.state = {
-      planets: [],
-      names: []
+      planet: [],
+      names: [],
+      totalOfPlanets: 1
     };
     this.apiConsult = this.apiConsult.bind(this);
   }
 
-  apiConsult(){
-    let initial = "https://swapi.co/api/planets/?format=json&page=1" ;
-    let posts;
-    this.setState({planets: [], names: []})
-    axios.get(initial)
-    .then(res => {
-        posts = res.data;
-        let randNumber = Math.floor(Math.random() * posts.count + 1);
-        axios.get(`https://swapi.co/api/planets/${randNumber}/`)
-          .then(resp => {
-            //modificando a lista de urls pelo tamanho do array
-            resp.data.films = resp.data.films.length;
-            resp.data.residents.map(link => {
-              axios.get(link)
-                .then(namesResponse => {
-                  console.log(namesResponse.data.name)
-                  this.setState({names: [namesResponse.data.name, this.state.names]});
-                })
+  apiConsult(totalOfPlanets) {
+    this.setState({
+      planet: [],
+      names: []
+    })
+    const randNumber = Math.floor(Math.random() * totalOfPlanets + 1);
+    axios.get(`https://swapi.co/api/planets/${randNumber}/`)
+      .then(resp => {
+        resp.data.films = resp.data.films.length;
+        resp.data.residents.map(link => {
+          axios.get(link)
+            .then(namesResponse => {
+              this.setState({
+                names: [namesResponse.data.name, this.state.names]
+              });
             })
-            this.setState({planets: resp.data});
-          });
+        })
+        this.setState({
+          planet: resp.data
+        });
       });
   }
 
-  componentWillMount(){
-    document.title = "Informação de planetas Star Wars"
-    this.apiConsult();
+  getNumberOfPlanets() {
+    axios.get('https://swapi.co/api/planets/?format=json&page=1')
+      .then(response => {
+        this.setState({ totalOfPlanets: response.data.count })
+      })
+      .catch(error => {
+        console.error("Erro ao setar quantidade de planetas", error)
+      })
   }
   
+  componentDidMount() {
+    document.title = "Informação de planetas Star Wars"
+    this.getNumberOfPlanets();
+    this.apiConsult(this.state.totalOfPlanets);
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className="App" >
+        <header className="App-header" >
           <img src={logo} className="App-logo" alt="logo" />
         </header>
         <Infobox
-          planet={this.state.planets}
+          planet={this.state.planet}
           names={this.state.names}
-          btnFunc={this.apiConsult}
+          btnFunc={() => this.apiConsult(this.state.totalOfPlanets)}
         />
       </div>
     );
